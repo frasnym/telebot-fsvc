@@ -1,34 +1,34 @@
-import { format, createLogger, transports } from "winston";
-import { envVars } from "./env-vars";
+import { format, createLogger, transports } from 'winston'
+import { envVars } from './env-vars'
 
 const enumerateErrorFormat = format((info) => {
   if (info instanceof Error) {
-    Object.assign(info, { message: info.stack });
+    Object.assign(info, { message: info.stack })
   }
-  return info;
-});
+  return info
+})
 
 const timeZoned = () => {
-  return new Date().toLocaleString("en-US", {
+  return new Date().toLocaleString('en-US', {
     // timeZone: envVars.timezone,
-    timeZoneName: "short",
-    hour12: false,
-  });
-};
+    timeZoneName: 'short',
+    hour12: false
+  })
+}
 
 const logger = createLogger({
-  level: envVars.env === "development" ? "debug" : "info",
+  level: envVars.env === 'development' ? 'debug' : 'info',
   format: format.combine(
     format.timestamp({ format: timeZoned }),
     enumerateErrorFormat(),
-    envVars.env === "development" ? format.colorize() : format.uncolorize(),
+    envVars.env === 'development' ? format.colorize() : format.uncolorize(),
     format.splat(),
     format.printf(
       ({ timestamp, level, message }) => `[${timestamp}] [${level}]: ${message}`
     )
   ),
   transports: [new transports.Console()],
-  exitOnError: false,
-});
+  exitOnError: false
+})
 
-export { logger };
+export { logger }
