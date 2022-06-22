@@ -1,0 +1,6 @@
+version: '3.3'
+
+services:
+  node-app:
+    container_name: boilerplate-node-fsvc-dev
+    command: npm run dev
